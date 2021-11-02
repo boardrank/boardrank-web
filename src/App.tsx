@@ -1,7 +1,12 @@
+import Header from "components/Header/Header";
 import React from "react";
 
 function App() {
-  return <></>;
+  return (
+    <>
+      <Header />
+    </>
+  );
 }
 
 export default App;
