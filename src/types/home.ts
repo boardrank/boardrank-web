@@ -1,10 +1,10 @@
 export interface GenreListResponseType {
-  genres: [
-    {
-      id: number;
-      code: string;
-      name: string;
-      order: number;
-    }
-  ];
+  genres: [GenreListType];
+}
+
+export interface GenreListType {
+  id: number;
+  code: string;
+  name: string;
+  order: number;
 }

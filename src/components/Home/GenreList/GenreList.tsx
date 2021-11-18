@@ -9,31 +9,30 @@ export interface GenreListPropsType {
 }
 
 const GenreList = ({ setGenryName }: GenreListPropsType) => {
-  const { genresState } = useHome();
-  const genryList = useRecoilValue(genresState);
-  // const [genryLists, setGenryLists] = useState(genryList);
-  // const [genryNum, setGenryNum] = useState(0);
+  const { genresState, genryLists } = useHome();
+  const [genryNum, setGenryNum] = useState(0);
 
-  console.log("genryLists", genresState);
+  useEffect(() => {
+    genresState();
+  }, []);
 
-  const getGenryLists = async () => {};
-
-  // const onClickGenry = (event, idx) => {
-  // setGenryNum(idx);
-  // setGenryName(event.target.innerText);
-  // };
+  const onClickGenry = (name: string, id: number) => {
+    setGenryNum(id);
+    setGenryName(name);
+  };
 
   return (
     <StyledGenryUl>
-      {genryList.map((genry) => (
-        <li
-          key={genry.id}
-          // className={genry.id === genryNum ? "active" : ""}
-          // onClick={(event) => onClickGenry(event, idx)}
-        >
-          {genry.id}
-        </li>
-      ))}
+      {genryLists &&
+        genryLists.map((genre) => (
+          <li
+            key={genre.id}
+            className={genre.id === genryNum ? "active" : ""}
+            onClick={() => onClickGenry(genre.name, genre.id)}
+          >
+            {genre.name}
+          </li>
+        ))}
     </StyledGenryUl>
   );
 };
