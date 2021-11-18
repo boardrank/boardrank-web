@@ -1,21 +1,21 @@
 import { getGenreListUrl } from "api/home";
-import React from "react";
-import { selector } from "recoil";
+import React, { useState } from "react";
+import { GenreListType } from "types/home";
 
 const useHome = () => {
-  const genresState = selector({
-    key: "Genres",
-    get: async () => {
-      try {
-        const res = await getGenreListUrl();
-        return res.data.genres;
-      } catch (error) {
-        throw error;
-      }
-    },
-  });
+  const [genryLists, setGenryLists] = useState<GenreListType[]>();
 
-  return { genresState };
+  const genresState = async () => {
+    try {
+      const res = await getGenreListUrl();
+      setGenryLists(res.data.genres);
+      return res.data.genres;
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  return { genresState, genryLists };
 };
 
 export default useHome;
