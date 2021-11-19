@@ -111,6 +111,12 @@ const StyledGameUl = styled.ul`
         color: ${palette.grey_8};
         padding: 0 10px;
         margin-bottom: 15px;
+        width: 100%;
+        white-space: normal;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
       }
       .tag {
         padding: 0 10px;
