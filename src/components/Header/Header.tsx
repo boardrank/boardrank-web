@@ -2,9 +2,32 @@ import React from "react";
 import styled from "styled-components";
 import { HashRouter as Router, Link } from "react-router-dom";
 import palette from "styles/palette";
+import { auth } from "firebase.utils";
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 
-const Header = () => {
-  const isLoggedIn = true;
+export interface HeaderPropsType {
+  isLoggedIn: boolean;
+  userObj: any;
+}
+
+const Header = ({ isLoggedIn, userObj }: HeaderPropsType) => {
+  const onLogOutClick = () => auth.signOut();
+  const onSocialClick = async () => {
+    const provider = await new GoogleAuthProvider();
+    await signInWithPopup(auth, provider)
+      .then((result) => {
+        const credential = GoogleAuthProvider.credentialFromResult(result);
+        // const token = credential.accessToken;
+        const user = result.user;
+        console.log(user);
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        const email = error.email;
+        const credential = GoogleAuthProvider.credentialFromError(error);
+      });
+  };
 
   return (
     <StyledHeader>
@@ -22,17 +45,23 @@ const Header = () => {
               <span className="user-email">
                 HELLO,
                 <Router>
-                  <Link to="/profile">유저아이디</Link>
+                  <Link to="/profile">
+                    {userObj.displayName ? userObj.displayName : userObj.email}
+                  </Link>
                 </Router>
               </span>
               <div className="header-separate"></div>
-              <button className="logout">logout</button>
+              <button className="logout" onClick={onLogOutClick}>
+                logout
+              </button>
             </>
           ) : (
             <>
               <span className="user-email">Welcome~!</span>
               <div className="header-separate"></div>
-              <button className="login">login with Google</button>
+              <button className="login" onClick={onSocialClick}>
+                login with Google
+              </button>
             </>
           )}
         </div>
