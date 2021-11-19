@@ -1,34 +1,27 @@
 import useHome from "hooks/useHome";
-import React, { useEffect, useState } from "react";
-import { useRecoilValue } from "recoil";
 import styled from "styled-components";
 import palette from "styles/palette";
 
 export interface GenreListPropsType {
-  setGenryName: (value: string) => void;
+  setGenreId: (value: number) => void;
+  genreId: number;
 }
 
-const GenreList = ({ setGenryName }: GenreListPropsType) => {
-  const { genresState, genryLists } = useHome();
-  const [genryNum, setGenryNum] = useState(0);
+const GenreList = ({ setGenreId, genreId }: GenreListPropsType) => {
+  const { genreLists } = useHome({ genreId });
 
-  useEffect(() => {
-    genresState();
-  }, []);
-
-  const onClickGenry = (name: string, id: number) => {
-    setGenryNum(id);
-    setGenryName(name);
+  const onClickGenry = (id: number) => {
+    setGenreId(id);
   };
 
   return (
     <StyledGenryUl>
-      {genryLists &&
-        genryLists.map((genre) => (
+      {genreLists &&
+        genreLists.map((genre) => (
           <li
             key={genre.id}
-            className={genre.id === genryNum ? "active" : ""}
-            onClick={() => onClickGenry(genre.name, genre.id)}
+            className={genre.id === genreId ? "active" : ""}
+            onClick={() => onClickGenry(genre.id)}
           >
             {genre.name}
           </li>

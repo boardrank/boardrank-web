@@ -1,54 +1,52 @@
+import useHome from "hooks/useHome";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import palette from "styles/palette";
 
 export interface GameListPropsType {
-  genryName: string;
+  genreId: number;
 }
 
-const GameList = ({ genryName }: GameListPropsType) => {
-  const [gameList, setGameList] = useState([]);
-
-  const getGameList = async () => {};
+const GameList = ({ genreId }: GameListPropsType) => {
+  const { gameLists } = useHome({ genreId });
 
   return (
     <StyledGameUl>
-      {/* {gameList.map((game) => (
-        <li key={game.id}>
-          <figure>
-            <img src={game.image} alt={`${game.name} 프로필 이미지`} />
-          </figure>
-          <div className="info-wrapper">
-            <div className="title-box">
-              <div className="title">
-                <h3>
-                  <Link to={`/detail/${game.id}`}>{game.name}</Link>
-                </h3>
-                <p>
-                  {game.personnel}명 / {game.recommendation}명추천
-                </p>
+      {gameLists &&
+        gameLists.map((game) => (
+          <li key={game.id}>
+            <figure>
+              <img src={game.thumbnailUrl} alt={`${game.name} 프로필 이미지`} />
+            </figure>
+            <div className="info-wrapper">
+              <div className="title-box">
+                <div className="title">
+                  <h3>
+                    <Link to={`/detail/${game.id}`}>{game.name}</Link>
+                  </h3>
+                  <p>
+                    {game.personnel}명 / {game.recommendPersonnel}명추천
+                  </p>
+                </div>
+                <div className="user-point font-jost">
+                  User point
+                  <span className="font-jost">
+                    {game.averageScore !== 0 ? game.averageScore : "평가 전"}
+                  </span>
+                </div>
               </div>
-              <div className="user-point font-jost">
-                User point
-                <span className="font-jost">
-                  {game.rating !== 0
-                    ? parseFloat(Math.round(game.rating)).toFixed(1)
-                    : "평가 전"}
-                </span>
-              </div>
+
+              <p className="detail">{game.description}</p>
+
+              <p className="tag">
+                {game.genres.map((n) => {
+                  return "#" + n.name + " ";
+                })}
+              </p>
             </div>
-
-            <p className="detail">{game.detail}</p>
-
-            <p className="tag">
-              {game.genry.map((n) => {
-                return "#" + n + " ";
-              })}
-            </p>
-          </div>
-        </li>
-      ))} */}
+          </li>
+        ))}
     </StyledGameUl>
   );
 };
