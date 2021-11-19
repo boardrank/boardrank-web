@@ -16,6 +16,12 @@ const GenreList = ({ setGenreId, genreId }: GenreListPropsType) => {
 
   return (
     <StyledGenryUl>
+      <li
+        className={genreId === 0 ? "active" : ""}
+        onClick={() => onClickGenry(0)}
+      >
+        전체
+      </li>
       {genreLists &&
         genreLists.map((genre) => (
           <li
