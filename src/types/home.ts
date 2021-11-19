@@ -8,3 +8,29 @@ export interface GenreListType {
   name: string;
   order: number;
 }
+
+export interface GameListResponseType {
+  boardGames: [GameListType];
+}
+
+export interface GameListType {
+  id: number;
+  name: string;
+  description: string;
+  thumbnailUrl: string;
+  designer: string;
+  difficulty: number;
+  personnel: string;
+  recommendPersonnel: string;
+  playTime: number;
+  age: number;
+  genres: [
+    {
+      id: number;
+      code: string;
+      name: string;
+      order: number;
+    }
+  ];
+  averageScore: number;
+}

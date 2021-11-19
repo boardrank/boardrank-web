@@ -3,12 +3,12 @@ import GameList from "./GameList";
 import GenreList from "./GenreList";
 
 const Home = () => {
-  const [genryName, setGenryName] = useState("테마");
+  const [genreId, setGenreId] = useState(0);
 
   return (
     <section className="inner">
-      <GenreList setGenryName={setGenryName} />
-      {/* <GameList genryName={genryName} /> */}
+      <GenreList setGenreId={setGenreId} genreId={genreId} />
+      <GameList genreId={genreId} />
     </section>
   );
 };
