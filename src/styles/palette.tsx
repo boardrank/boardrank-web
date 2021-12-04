@@ -9,4 +9,7 @@ export default {
   grey_8: "#3E3E3E",
   grey_9: "#202020",
   grey_10: "#222224",
+
+  // main
+  main_0: "#FF5C00",
 };

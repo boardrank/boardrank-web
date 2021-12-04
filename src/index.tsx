@@ -1,6 +1,8 @@
 import axios from "axios";
-import React, { Suspense } from "react";
+import React from "react";
 import ReactDOM from "react-dom";
+import { ThemeProvider } from "styled-components";
+import size from "styles/size";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 
@@ -10,7 +12,9 @@ axios.defaults.headers.post["Content-Type"] =
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <ThemeProvider theme={size}>
+      <App />
+    </ThemeProvider>
   </React.StrictMode>,
   document.getElementById("root")
 );
