@@ -109,6 +109,7 @@ const StyledHeader = styled.header`
 
     .logo {
       width: 110px;
+      margin-left: 113px;
     }
 
     .hello-user {
@@ -181,6 +182,7 @@ const StyledHeader = styled.header`
       justify-content: center;
       .logo {
         width: 170px;
+        margin-left: 0;
       }
       .hello-user {
         display: none;
