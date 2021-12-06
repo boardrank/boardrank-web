@@ -30,7 +30,7 @@ const GameList = ({ genreId }: GameListPropsType) => {
                 <div className="title-box">
                   <div className="title">
                     <h3>
-                      <Link to={`/detail/${game.id}`}>{game.name}</Link>
+                      <Link to={`/game-detail/${game.id}`}>{game.name}</Link>
                     </h3>
                     <p>
                       {game.personnel}명 / {game.recommendPersonnel}명추천
@@ -181,7 +181,6 @@ const StyledGameUl = styled.ul`
               font-size: 24px;
               span {
                 margin-left: 8px;
-                color: ${palette.grey_9};
                 font-size: 24px;
               }
             }
