@@ -20,6 +20,7 @@ const GenreList = ({ setGenreId, genreId }: GenreListPropsType) => {
         <li
           className={genreId === 0 ? "active" : ""}
           onClick={() => onClickGenry(0)}
+          key={0}
         >
           전체
         </li>

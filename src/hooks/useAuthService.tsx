@@ -1,12 +1,17 @@
 import React from "react";
-import { GoogleLoginResponse } from "react-google-login";
+import {
+  GoogleLoginResponse,
+  GoogleLoginResponseOffline,
+} from "react-google-login";
 
 function useAuthService() {
-  const responseGoogle = async (response: GoogleLoginResponse | any) => {
-    console.log(response.tokenObj.id_token);
+  const responseGoogle = async (
+    response: GoogleLoginResponse | GoogleLoginResponseOffline
+  ) => {
+    console.log("test");
     try {
-      const { id_token } = response.tokenObj;
-      return console.log("test");
+      const { tokenId } = response as GoogleLoginResponse;
+      console.log("tokenId", tokenId);
     } catch (error) {
       console.log(error);
     }
@@ -14,4 +19,4 @@ function useAuthService() {
   return { responseGoogle };
 }
 
-export default useAuthService();
+export default useAuthService;
