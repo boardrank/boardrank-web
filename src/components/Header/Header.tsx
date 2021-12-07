@@ -97,7 +97,6 @@ const StyledHeader = styled.header`
 
     .logo {
       width: 110px;
-      margin-left: 113px;
     }
 
     .hello-user {
