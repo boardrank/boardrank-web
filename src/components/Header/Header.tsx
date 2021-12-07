@@ -1,46 +1,34 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { BrowserRouter as Router, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import palette from "styles/palette";
-import GoogleLogin, {
-  GoogleLoginResponse,
-  GoogleLoginResponseOffline,
-} from "react-google-login";
+import GoogleLogin from "react-google-login";
 import MobileSideMenu from "./MobileSideMenu";
+import useAuthService from "hooks/useAuthService";
 
 const Header = () => {
   const isLoggedIn = false;
   const [activeMobileSideMenu, setActiveMobileSideMenu] = useState(false);
 
-  const responseGoogle = async (response: GoogleLoginResponse | any) => {
-    try {
-      const { id_token } = response.tokenObj;
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  const { responseGoogle } = useAuthService();
 
   return (
     <>
       <StyledHeader>
         <div className="header-inner">
           <div className="logo">
-            <Router>
-              <Link to="/">
-                <img src="/image/board_rank_logo.svg" />
-              </Link>
-            </Router>
+            <Link to="/">
+              <img src="/image/board_rank_logo.svg" />
+            </Link>
           </div>
           <div className="hello-user">
             {isLoggedIn ? (
               <>
                 <span className="user-email">
                   반가워요,
-                  <Router>
-                    <Link to="/profile">
-                      {/* {userObj.displayName ? userObj.displayName : userObj.email} */}
-                    </Link>
-                  </Router>
+                  {/* <Link to="/profile">
+                    {userObj.displayName ? userObj.displayName : userObj.email}
+                  </Link> */}
                 </span>
                 <div className="header-separate"></div>
                 <button className="logout" onClick={() => {}}>
