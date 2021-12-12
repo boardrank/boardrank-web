@@ -126,7 +126,7 @@ const GameInfoContainer = styled.section`
   }
   .detail-description {
     padding: 0 5px;
-    font-size: 15px;
+    font-size: 16px;
     line-height: 24px;
     font-weight: 500;
     color: ${palette.grey_8};
