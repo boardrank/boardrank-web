@@ -3,7 +3,11 @@ import styled from "styled-components";
 import palette from "styles/palette";
 import GameReviewModal from "../GameReviewModal/GameReviewModal";
 
-function GameReview() {
+export interface GameReviewPropsType {
+  gameId: number;
+}
+
+function GameReview({ gameId }: GameReviewPropsType) {
   const [isReviewModal, setIsReviewModal] = useState(false);
 
   return (
@@ -78,7 +82,9 @@ function GameReview() {
           </p>
         </Review>
       </GameReviewWrapper>
-      {isReviewModal && <GameReviewModal closeModal={setIsReviewModal} />}
+      {isReviewModal && (
+        <GameReviewModal closeModal={setIsReviewModal} gameId={gameId} />
+      )}
     </>
   );
 }

@@ -9,7 +9,7 @@ const GameDetail = () => {
   return (
     <GameDetailWrapper>
       <GameInfo gameId={gameId} />
-      <GameReview />
+      <GameReview gameId={gameId} />
     </GameDetailWrapper>
   );
 };
