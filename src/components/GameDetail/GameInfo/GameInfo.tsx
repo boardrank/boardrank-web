@@ -38,7 +38,7 @@ const GameInfo = ({ gameId }: GameInfoPropsType) => {
                   </p>
                   <span className="devider"></span>
                   <p className="lable">플레이 시간</p>
-                  <p className="description">{game.playTime}</p>
+                  <p className="description">{game.playTime}분</p>
                   <span className="devider pc-devider"></span>
                   <p className="lable">사용연령</p>
                   <p className="description">{game.age}세 이상</p>
@@ -76,6 +76,7 @@ const GameInfoWrapper = styled.article`
   }
   @media ${(props) => props.theme.tablet} {
     padding: 0;
+    margin-bottom: 60px;
     .thumbnail.pc-img {
       display: none;
     }
@@ -175,10 +176,11 @@ const GameInfoContainer = styled.section`
     }
   }
   @media ${(props) => props.theme.tablet} {
-    padding: 28px 5px;
-    border-top: 1px solid;
-    border-bottom: 1px solid;
+    padding: 0;
     .info-container {
+      margin-bottom: 28px;
+      padding: 28px 5px 4px;
+      border-top: 1px solid ${palette.grey_2};
       .info-row {
         flex-wrap: wrap;
         padding-bottom: 0;
@@ -190,6 +192,15 @@ const GameInfoContainer = styled.section`
         .pc-devider {
           display: none;
         }
+      }
+    }
+    .detail-description {
+      line-height: 180%;
+    }
+    .tag-list {
+      p {
+        font-size: 14px;
+        line-height: 22.4px;
       }
     }
   }

@@ -32,7 +32,7 @@ function GameReview({ gameId }: GameReviewPropsType) {
               setIsReviewModal(true);
             }}
           >
-            <span>👀</span>나도 이 게임 평가하기~!
+            <span>👀 </span>나도 이 게임 평가하기~!
           </StyledButton>
         </TitleWrapper>
         <Review>
@@ -92,7 +92,7 @@ function GameReview({ gameId }: GameReviewPropsType) {
 const GameReviewWrapper = styled.section`
   width: 100%;
   max-width: 1180px;
-  margin: 0 auto 150px;
+  margin: 0 auto;
 `;
 
 const TitleWrapper = styled.section`
@@ -130,6 +130,30 @@ const TitleWrapper = styled.section`
       }
     }
   }
+  @media ${(props) => props.theme.tablet} {
+    padding-bottom: 20px;
+    margin-bottom: 24px;
+    .title-container {
+      .title {
+        font-size: 28px;
+        line-height: 28px;
+        font-weight: 600;
+        span {
+          margin-left: 4px;
+        }
+      }
+      .rating {
+        font-size: 28px;
+        line-height: 28px;
+        margin-left: 8px;
+      }
+      .rating-star {
+        img {
+          width: 26px;
+        }
+      }
+    }
+  }
 `;
 
 const StyledButton = styled.button`
@@ -143,6 +167,13 @@ const StyledButton = styled.button`
   span {
     font-size: 20px;
     line-height: 20px;
+  }
+  @media ${(props) => props.theme.tablet} {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 68px;
   }
 `;
 
@@ -187,6 +218,39 @@ const Review = styled.section`
     line-height: 25.6px;
     font-weight: 500;
     color: ${palette.grey_7};
+  }
+  @media ${(props) => props.theme.tablet} {
+    padding-bottom: 24px;
+    margin-bottom: 24px;
+    .review-info {
+      display: block;
+      margin-bottom: 2px;
+      .star-container {
+        margin-bottom: 2px;
+        .rating-star {
+          img {
+            width: 20px;
+          }
+        }
+        p {
+          font-size: 12px;
+          line-height: 160%;
+          color: ${palette.grey_7};
+          margin-left: 8px;
+        }
+      }
+      .date {
+        font-size: 12px;
+        line-height: 160%;
+        color: ${palette.grey_6};
+        padding-left: 4px;
+      }
+    }
+    .review-contents {
+      padding: 0 4px;
+      font-size: 14px;
+      line-height: 160%;
+    }
   }
 `;
 
