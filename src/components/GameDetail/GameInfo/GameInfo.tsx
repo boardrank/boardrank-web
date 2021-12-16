@@ -14,10 +14,13 @@ const GameInfo = ({ gameId }: GameInfoPropsType) => {
     <GameInfoWrapper>
       {game && (
         <>
-          <figure className="thumbnail">
+          <figure className="thumbnail pc-img">
             <img src={game.thumbnailUrl} alt={`${game.name} 썸네일 이미지`} />
           </figure>
           <GameInfoSection>
+            <figure className="thumbnail mob-img">
+              <img src={game.thumbnailUrl} alt={`${game.name} 썸네일 이미지`} />
+            </figure>
             <h2>{game.name}</h2>
             <GameInfoContainer>
               <div className="info-container">
@@ -36,7 +39,7 @@ const GameInfo = ({ gameId }: GameInfoPropsType) => {
                   <span className="devider"></span>
                   <p className="lable">플레이 시간</p>
                   <p className="description">{game.playTime}</p>
-                  <span className="devider"></span>
+                  <span className="devider pc-devider"></span>
                   <p className="lable">사용연령</p>
                   <p className="description">{game.age}세 이상</p>
                   <span className="devider"></span>
@@ -64,17 +67,26 @@ const GameInfoWrapper = styled.article`
   padding-right: 100px;
   margin: 0 auto 120px;
   display: flex;
-  .thumbnail {
+  .thumbnail.pc-img {
     width: 280px;
     margin-right: 72px;
     img {
       width: 100%;
     }
   }
+  @media ${(props) => props.theme.tablet} {
+    padding: 0;
+    .thumbnail.pc-img {
+      display: none;
+    }
+  }
 `;
 
 const GameInfoSection = styled.section`
   width: calc(100% - 352px);
+  .thumbnail.mob-img {
+    display: none;
+  }
   h2 {
     padding: 2px 5px 32px;
     color: ${palette.grey_9};
@@ -86,20 +98,40 @@ const GameInfoSection = styled.section`
     width: 100%;
     display: inline-block;
   }
+  @media ${(props) => props.theme.tablet} {
+    width: 100%;
+    .thumbnail.mob-img {
+      display: block;
+      height: 193px;
+      margin: auto;
+      text-align: center;
+      margin-bottom: 24px;
+      img {
+        width: auto;
+        height: 100%;
+      }
+    }
+    h2 {
+      text-align: center;
+      font-size: 24px;
+      line-height: 140%;
+      color: ${palette.grey_9};
+      padding: 0;
+      margin-bottom: 24px;
+      border: 0;
+    }
+  }
 `;
 
 const GameInfoContainer = styled.section`
   .info-container {
-    padding: 0 5px;
+    padding: 0 5px 20px;
+    border-bottom: 1px solid ${palette.grey_2};
+    margin-bottom: 32px;
     .info-row {
       display: flex;
       align-items: center;
       padding-bottom: 16px;
-      &:nth-child(2) {
-        padding-bottom: 36px;
-        margin-bottom: 32px;
-        border-bottom: 1px solid ${palette.grey_2};
-      }
       .lable {
         font-size: 16px;
         font-weight: 500;
@@ -140,6 +172,25 @@ const GameInfoContainer = styled.section`
       line-height: 25.6px;
       font-weight: 400;
       color: ${palette.grey_6};
+    }
+  }
+  @media ${(props) => props.theme.tablet} {
+    padding: 28px 5px;
+    border-top: 1px solid;
+    border-bottom: 1px solid;
+    .info-container {
+      .info-row {
+        flex-wrap: wrap;
+        padding-bottom: 0;
+        .lable,
+        .description,
+        .devider {
+          margin-bottom: 24px;
+        }
+        .pc-devider {
+          display: none;
+        }
+      }
     }
   }
 `;
