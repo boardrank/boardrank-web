@@ -16,6 +16,9 @@ const GameDetail = () => {
 
 const GameDetailWrapper = styled.section`
   padding: 80px 0 150px;
+  @media ${(props) => props.theme.tablet} {
+    padding: 24px 15px 50px;
+  }
 `;
 
 export default GameDetail;
