@@ -1,5 +1,5 @@
 import useGameDetail from "hooks/useGameDetail";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import palette from "styles/palette";
 
@@ -9,6 +9,23 @@ export interface GameReviewModalPropsType {
 }
 
 function GameReviewModal({ closeModal, gameId }: GameReviewModalPropsType) {
+  const isBrowser = typeof window !== "undefined";
+  const [height, setHeight] = useState(isBrowser ? window.innerHeight : 0);
+
+  useEffect(() => {
+    if (!isBrowser) return;
+
+    const setWindowSize = () => {
+      setHeight(window.innerHeight);
+    };
+
+    window.addEventListener("resize", setWindowSize);
+
+    return () => {
+      window.removeEventListener("resize", setWindowSize);
+    };
+  }, [isBrowser]);
+
   const handleCloseModal = (e: React.MouseEvent) => {
     if (e.target === e.currentTarget) {
       closeModal(false);
@@ -19,7 +36,7 @@ function GameReviewModal({ closeModal, gameId }: GameReviewModalPropsType) {
   const game = gameData?.boardGame;
 
   return (
-    <ModalWrapper onClick={handleCloseModal}>
+    <ModalWrapper onClick={handleCloseModal} height={height}>
       <ModalContainer>
         <img
           className="close-modal-button pc"
@@ -52,7 +69,7 @@ function GameReviewModal({ closeModal, gameId }: GameReviewModalPropsType) {
   );
 }
 
-const ModalWrapper = styled.article`
+const ModalWrapper = styled.article<{ height: number }>`
   position: fixed;
   top: 0;
   left: 0;
@@ -65,6 +82,9 @@ const ModalWrapper = styled.article`
   align-items: center;
   @media ${(props) => props.theme.tablet} {
     align-items: flex-end;
+    /* height: ${(props) => (props.height ? props.height : "")}px; */
+    top: unset;
+    bottom: 0;
   }
 `;
 

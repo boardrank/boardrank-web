@@ -8,16 +8,6 @@ html {
   font-style: normal;
 }
 
-body {
-  min-height: 100vh;
-  /* mobile viewport bug fix */
-  min-height: -webkit-fill-available;
-}
-
-html {
-  height: -webkit-fill-available;
-}
-
 ::selection {
   background-color: #63e6be;
   color: #fff;
