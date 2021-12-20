@@ -22,8 +22,14 @@ function GameReviewModal({ closeModal, gameId }: GameReviewModalPropsType) {
     <ModalWrapper onClick={handleCloseModal}>
       <ModalContainer>
         <img
-          className="close-modal-button"
+          className="close-modal-button pc"
           src="/image/close_modal.svg"
+          alt="모달 닫기 버튼"
+          onClick={handleCloseModal}
+        />
+        <img
+          className="close-modal-button mo"
+          src="/image/close_modal_mo.svg"
           alt="모달 닫기 버튼"
           onClick={handleCloseModal}
         />
@@ -57,6 +63,9 @@ const ModalWrapper = styled.article`
   display: flex;
   justify-content: center;
   align-items: center;
+  @media ${(props) => props.theme.tablet} {
+    align-items: flex-end;
+  }
 `;
 
 const ModalContainer = styled.article`
@@ -64,6 +73,10 @@ const ModalContainer = styled.article`
   padding: 48px 100px;
   background-color: ${palette.grey_1};
   position: relative;
+
+  .close-modal-button.mo {
+    display: none;
+  }
   .close-modal-button {
     position: absolute;
     top: 24px;
@@ -82,7 +95,7 @@ const ModalContainer = styled.article`
   }
   textarea {
     width: 100%;
-    min-height: 200px;
+    height: 200px;
     border: 1px solid ${palette.grey_4};
     padding: 20px;
     font-size: 16px;
@@ -95,6 +108,32 @@ const ModalContainer = styled.article`
     }
     &:focus {
       outline: none;
+    }
+  }
+
+  @media ${(props) => props.theme.tablet} {
+    width: 100%;
+    height: calc(100% - 56px);
+    border-radius: 10px 10px 0 0;
+    padding: 48px 16px 56px;
+    .close-modal-button.pc {
+      display: none;
+    }
+    .close-modal-button.mo {
+      display: block;
+    }
+    .close-modal-button {
+      width: 46px;
+      top: 0;
+      right: 0;
+    }
+    h2 {
+      font-size: 24px;
+      line-height: 33.6px;
+    }
+    textarea {
+      height: 286px;
+      margin-bottom: 56px;
     }
   }
 `;
@@ -126,6 +165,15 @@ const RatingArea = styled.section`
     line-height: 22.4px;
     font-weight: 500;
     color: ${palette.grey_7};
+  }
+  @media ${(props) => props.theme.tablet} {
+    .rating-star {
+      margin-bottom: 16px;
+    }
+    .description {
+      font-size: 16px;
+      line-height: 25.6px;
+    }
   }
 `;
 

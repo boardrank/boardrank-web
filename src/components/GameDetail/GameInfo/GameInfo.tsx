@@ -50,7 +50,7 @@ const GameInfo = ({ gameId }: GameInfoPropsType) => {
               <p className="detail-description">{game.description}</p>
               <div className="tag-list">
                 {game.genres.map((n) => {
-                  return <p>#{n.name}&nbsp;</p>;
+                  return <p key={n.id}>#{n.name}&nbsp;</p>;
                 })}
               </div>
             </GameInfoContainer>

@@ -11,7 +11,7 @@ function useAuthService() {
   ) => {
     try {
       const { tokenId } = response as GoogleLoginResponse;
-      signUp(tokenId);
+      signIn(tokenId);
     } catch (error) {
       console.log(error);
     }
@@ -21,7 +21,6 @@ function useAuthService() {
     try {
       const res = await signUpUrl({ tokenId });
       console.log(res);
-      // if (res.status !== 200) signIn(tokenId);
     } catch (error) {
       throw error;
     }
@@ -30,6 +29,7 @@ function useAuthService() {
   const signIn = async (tokenId: string) => {
     try {
       const res = await signInUrl({ tokenId });
+      console.log(res);
     } catch (error) {
       throw error;
     }
