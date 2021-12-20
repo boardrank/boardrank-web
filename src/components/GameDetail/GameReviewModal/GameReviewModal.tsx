@@ -65,6 +65,9 @@ const ModalWrapper = styled.article`
   align-items: center;
   @media ${(props) => props.theme.tablet} {
     align-items: flex-end;
+    height: 100vh;
+    height: -webkit-fill-available;
+    height: fill-available;
   }
 `;
 
