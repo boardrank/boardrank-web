@@ -1,16 +1,23 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import palette from "styles/palette";
 import GoogleLogin from "react-google-login";
 import MobileSideMenu from "./MobileSideMenu";
 import useAuthService from "hooks/useAuthService";
+import useUser from "hooks/useUser";
 
 const Header = () => {
   const isLoggedIn = false;
   const [activeMobileSideMenu, setActiveMobileSideMenu] = useState(false);
 
   const { responseGoogle } = useAuthService();
+
+  const { userInfo } = useUser();
+
+  useEffect(() => {
+    userInfo();
+  }, []);
 
   return (
     <>
