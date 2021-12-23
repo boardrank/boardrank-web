@@ -4,23 +4,39 @@ import {
   GoogleLoginResponse,
   GoogleLoginResponseOffline,
 } from "react-google-login";
+import { ApiErrorResponse } from "types/api";
+import { AxiosError } from "axios";
+import localforage from "localforage";
+
+export const getAxiosError = (error: any) => {
+  if ((error as AxiosError).isAxiosError && error.response) {
+    return error.response.data as ApiErrorResponse;
+  }
+
+  return null;
+};
 
 function useAuthService() {
+  const storage = localforage.createInstance({
+    name: "_rf",
+    driver: localforage.LOCALSTORAGE,
+  });
+
   const responseGoogle = async (
     response: GoogleLoginResponse | GoogleLoginResponseOffline
   ) => {
     try {
       const { tokenId } = response as GoogleLoginResponse;
-      signIn(tokenId);
+      await signIn(tokenId);
     } catch (error) {
-      console.log(error);
+      throw error;
     }
   };
 
   const signUp = async (tokenId: string) => {
     try {
       const res = await signUpUrl({ tokenId });
-      console.log(res);
+      storage.setItem("_tk", res.data.refreshToken);
     } catch (error) {
       throw error;
     }
@@ -29,8 +45,10 @@ function useAuthService() {
   const signIn = async (tokenId: string) => {
     try {
       const res = await signInUrl({ tokenId });
-      console.log(res);
+      storage.setItem("_tk", res.data.refreshToken);
     } catch (error) {
+      const axiosErrorData = getAxiosError(error);
+      if (axiosErrorData?.errorCode === 4040) return signUp(tokenId);
       throw error;
     }
   };
