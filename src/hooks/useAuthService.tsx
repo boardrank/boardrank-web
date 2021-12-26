@@ -36,6 +36,7 @@ function useAuthService() {
     try {
       const res = await signUpUrl({ tokenId });
       storage.setItem("_tk", res.data.refreshToken);
+      window.location.replace("/");
     } catch (error) {
       throw error;
     }
@@ -45,6 +46,7 @@ function useAuthService() {
     try {
       const res = await signInUrl({ tokenId });
       storage.setItem("_tk", res.data.refreshToken);
+      window.location.replace("/");
     } catch (error) {
       const axiosErrorData = getAxiosError(error);
       if (axiosErrorData?.errorCode === 4040) return signUp(tokenId);
@@ -54,6 +56,7 @@ function useAuthService() {
 
   const LogOut = () => {
     storage.removeItem("_tk");
+    window.location.replace("/");
   };
 
   return { responseGoogle, LogOut };
