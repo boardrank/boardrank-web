@@ -1,6 +1,6 @@
 import { getUserUrl } from "api/user";
 import localforage from "localforage";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { userType } from "types/user";
 
 const useUser = () => {
@@ -14,16 +14,18 @@ const useUser = () => {
   const userInfo = async () => {
     await storage.getItem("_tk", function (err, value) {
       try {
-        const res = getUserUrl({ value });
-        console.log("value: ", value);
-        console.log(res);
+        const res = getUserUrl({ value, setUserObj });
       } catch (error) {
         throw error;
       }
     });
   };
 
-  return { userInfo };
+  useEffect(() => {
+    userInfo();
+  }, []);
+
+  return { userObj };
 };
 
 export default useUser;

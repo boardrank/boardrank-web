@@ -1,10 +1,16 @@
 import axios from "axios";
 
-export const getUserUrl = async ({ refreshToken }: any) => {
-  return axios.post("/auth/refresh", refreshToken).then((res) => {
+export const getUserUrl = async ({ value, setUserObj }: any) => {
+  await axios({
+    url: "auth/refresh",
+    method: "POST",
+    data: { refreshToken: value },
+  }).then((res) => {
     axios.defaults.headers.common[
       "Authorization"
     ] = `Bearer ${res.data.accessToken}`;
-    axios.get("/user");
+    return axios.get("/user").then((res) => {
+      setUserObj(res.data);
+    });
   });
 };

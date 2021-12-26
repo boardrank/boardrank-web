@@ -7,17 +7,16 @@ import MobileSideMenu from "./MobileSideMenu";
 import useAuthService from "hooks/useAuthService";
 import useUser from "hooks/useUser";
 
-const Header = () => {
-  const isLoggedIn = false;
+export interface HeaderPropsType {
+  isLoggedIn: boolean;
+}
+
+const Header = ({ isLoggedIn }: HeaderPropsType) => {
   const [activeMobileSideMenu, setActiveMobileSideMenu] = useState(false);
 
   const { responseGoogle } = useAuthService();
 
-  const { userInfo } = useUser();
-
-  useEffect(() => {
-    userInfo();
-  }, []);
+  const { userObj } = useUser();
 
   return (
     <>
@@ -33,9 +32,7 @@ const Header = () => {
               <>
                 <span className="user-email">
                   반가워요,
-                  {/* <Link to="/profile">
-                    {userObj.displayName ? userObj.displayName : userObj.email}
-                  </Link> */}
+                  <Link to="/profile">{userObj?.user.nickname}님</Link>
                 </span>
                 <div className="header-separate"></div>
                 <button className="logout" onClick={() => {}}>
