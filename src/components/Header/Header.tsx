@@ -14,7 +14,7 @@ export interface HeaderPropsType {
 const Header = ({ isLoggedIn }: HeaderPropsType) => {
   const [activeMobileSideMenu, setActiveMobileSideMenu] = useState(false);
 
-  const { responseGoogle } = useAuthService();
+  const { responseGoogle, LogOut } = useAuthService();
 
   const { userObj } = useUser();
 
@@ -35,7 +35,7 @@ const Header = ({ isLoggedIn }: HeaderPropsType) => {
                   <Link to="/profile">{userObj?.user.nickname}님</Link>
                 </span>
                 <div className="header-separate"></div>
-                <button className="logout" onClick={() => {}}>
+                <button className="logout" onClick={LogOut}>
                   logout
                 </button>
               </>
