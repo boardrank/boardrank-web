@@ -14,7 +14,7 @@ const useUser = () => {
   const userInfo = async () => {
     await storage.getItem("_tk", function (err, value) {
       try {
-        const res = getUserUrl({ value, setUserObj });
+        value && getUserUrl({ value, setUserObj });
       } catch (error) {
         throw error;
       }

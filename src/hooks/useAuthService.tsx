@@ -1,5 +1,4 @@
 import { signInUrl, signUpUrl } from "api/auth";
-import React from "react";
 import {
   GoogleLoginResponse,
   GoogleLoginResponseOffline,
@@ -53,7 +52,11 @@ function useAuthService() {
     }
   };
 
-  return { responseGoogle };
+  const LogOut = () => {
+    storage.removeItem("_tk");
+  };
+
+  return { responseGoogle, LogOut };
 }
 
 export default useAuthService;
