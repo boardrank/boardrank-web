@@ -31,8 +31,8 @@ const Header = ({ isLoggedIn }: HeaderPropsType) => {
             {isLoggedIn ? (
               <>
                 <span className="user-email">
-                  반가워요,
-                  <Link to="/profile">{userObj?.user.nickname}님</Link>
+                  HELLO,
+                  <Link to="/profile">{userObj?.user.nickname}</Link>
                 </span>
                 <div className="header-separate"></div>
                 <button className="logout" onClick={LogOut}>

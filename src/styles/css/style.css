@@ -8,6 +8,11 @@ html {
   font-style: normal;
 }
 
+html * {
+  font-family: "Noto Sans KR", sans-serif;
+  font-style: normal;
+}
+
 ::selection {
   background-color: #63e6be;
   color: #fff;
