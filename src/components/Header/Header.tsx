@@ -6,17 +6,16 @@ import GoogleLogin from "react-google-login";
 import MobileSideMenu from "./MobileSideMenu";
 import useAuthService from "hooks/useAuthService";
 import useUser from "hooks/useUser";
-import { userType } from "types/user";
 
 export interface HeaderPropsType {
   isLoggedIn: boolean;
-  userObj: userType | null | undefined;
 }
 
-const Header = ({ isLoggedIn, userObj }: HeaderPropsType) => {
+const Header = ({ isLoggedIn }: HeaderPropsType) => {
   const [activeMobileSideMenu, setActiveMobileSideMenu] = useState(false);
 
   const { responseGoogle, handleLogOut } = useAuthService();
+  const { userObj } = useUser();
 
   return (
     <>
@@ -28,7 +27,7 @@ const Header = ({ isLoggedIn, userObj }: HeaderPropsType) => {
             </Link>
           </div>
           <div className="hello-user">
-            {userObj ? (
+            {isLoggedIn ? (
               <>
                 <span className="user-email">
                   HELLO,
@@ -74,6 +73,7 @@ const Header = ({ isLoggedIn, userObj }: HeaderPropsType) => {
       <MobileSideMenu
         setActiveMobileSideMenu={setActiveMobileSideMenu}
         activeMobileSideMenu={activeMobileSideMenu}
+        isLoggedIn={isLoggedIn}
       />
     </>
   );
