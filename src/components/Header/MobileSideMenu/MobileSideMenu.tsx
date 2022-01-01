@@ -1,47 +1,60 @@
+import useAuthService from "hooks/useAuthService";
+import useUser from "hooks/useUser";
 import React from "react";
 import GoogleLogin, { GoogleLoginResponse } from "react-google-login";
 import styled from "styled-components";
 import palette from "styles/palette";
+import { userType } from "types/user";
 
 export interface MobileSideMenuPropsType {
   setActiveMobileSideMenu: (value: boolean) => void;
   activeMobileSideMenu: boolean;
+  isLoggedIn: boolean;
 }
 
 const MobileSideMenu = ({
   setActiveMobileSideMenu,
   activeMobileSideMenu,
+  isLoggedIn,
 }: MobileSideMenuPropsType) => {
-  const responseGoogle = async (response: GoogleLoginResponse | any) => {
-    try {
-      const { id_token } = response.tokenObj;
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  const { responseGoogle, handleLogOut } = useAuthService();
+  const { userObj } = useUser();
+
   return (
     <Wrapper activeMobileSideMenu={activeMobileSideMenu}>
       <button className="close" onClick={() => setActiveMobileSideMenu(false)}>
         <img src="/image/close.svg" />
       </button>
       <ProfileSection>
-        <h3>반가워요</h3>
-        <h3>로그인 해주세요!</h3>
-        <GoogleLogin
-          clientId="47989076113-v9i17kn2i3bku3ko07pu287du8akot88.apps.googleusercontent.com"
-          render={(renderProps) => (
-            <button
-              onClick={renderProps.onClick}
-              disabled={renderProps.disabled}
-            >
-              login
+        {isLoggedIn ? (
+          <>
+            <h3>HELLO :)</h3>
+            <h3>{userObj?.nickname}</h3>
+            <button className="logout" onClick={handleLogOut}>
+              logout
             </button>
-          )}
-          buttonText="Login"
-          onSuccess={responseGoogle}
-          onFailure={responseGoogle}
-          cookiePolicy={"single_host_origin"}
-        />
+          </>
+        ) : (
+          <>
+            <h3>반가워요</h3>
+            <h3>로그인 해주세요!</h3>
+            <GoogleLogin
+              clientId="47989076113-v9i17kn2i3bku3ko07pu287du8akot88.apps.googleusercontent.com"
+              render={(renderProps) => (
+                <button
+                  onClick={renderProps.onClick}
+                  disabled={renderProps.disabled}
+                >
+                  login
+                </button>
+              )}
+              buttonText="Login"
+              onSuccess={responseGoogle}
+              onFailure={responseGoogle}
+              cookiePolicy={"single_host_origin"}
+            />
+          </>
+        )}
       </ProfileSection>
     </Wrapper>
   );
