@@ -13,7 +13,7 @@ export const signUpUrl = async ({ tokenId }: SignUpUrlRequestType) => {
 };
 
 export const signInUrl = async ({ tokenId }: SignUpUrlRequestType) => {
-  return await axios({
+  return await axios.request({
     url: `auth/sign-in`,
     method: "POST",
     data: { idToken: tokenId },
