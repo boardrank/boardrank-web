@@ -9,17 +9,22 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { Provider } from "react-redux";
 import { composeWithDevTools } from "redux-devtools-extension";
+import { persistStore } from "redux-persist";
+import { PersistGate } from "redux-persist/integration/react";
 
 axios.defaults.baseURL = "https://api.boardrank.kr";
 axios.defaults.withCredentials = true;
 
 const store = createStore(rootReducer, composeWithDevTools());
+const persistor = persistStore(store);
 
 ReactDOM.render(
   <React.StrictMode>
     <ThemeProvider theme={size}>
       <Provider store={store}>
-        <App />
+        <PersistGate loading={null} persistor={persistor}>
+          <App />
+        </PersistGate>
       </Provider>
     </ThemeProvider>
   </React.StrictMode>,
