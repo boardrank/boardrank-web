@@ -30,6 +30,8 @@ export default function reducer(state = initialState, action: any) {
       return { accessToken: action.accessToken };
     case SIGN_UP:
       return { accessToken: action.accessToken };
+    case LOG_OUT:
+      return { accessToken: "" };
     default:
       return state;
   }

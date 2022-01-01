@@ -5,10 +5,8 @@ import {
 } from "react-google-login";
 import { ApiErrorResponse } from "types/api";
 import { AxiosError } from "axios";
-import localforage from "localforage";
-import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { signIn, signUp } from "_redux/auth";
+import { logOut, signIn, signUp } from "_redux/auth";
 
 export const getAxiosError = (error: any) => {
   if ((error as AxiosError).isAxiosError && error.response) {
@@ -51,11 +49,11 @@ function useAuthService() {
     }
   };
 
-  const LogOut = () => {
-    // storage.removeItem("_tk");
+  const handleLogOut = () => {
+    dispatch(logOut());
   };
 
-  return { responseGoogle, LogOut };
+  return { responseGoogle, handleLogOut };
 }
 
 export default useAuthService;
