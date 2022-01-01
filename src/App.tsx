@@ -21,7 +21,7 @@ function App() {
 
   return (
     <Router>
-      <Header isLoggedIn={isLoggedIn} />
+      <Header isLoggedIn={isLoggedIn} userObj={userObj} />
       <AppLayout>
         <AppRouter />
       </AppLayout>

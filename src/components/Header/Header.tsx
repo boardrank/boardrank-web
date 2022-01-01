@@ -6,17 +6,17 @@ import GoogleLogin from "react-google-login";
 import MobileSideMenu from "./MobileSideMenu";
 import useAuthService from "hooks/useAuthService";
 import useUser from "hooks/useUser";
+import { userType } from "types/user";
 
 export interface HeaderPropsType {
   isLoggedIn: boolean;
+  userObj: userType | null | undefined;
 }
 
-const Header = ({ isLoggedIn }: HeaderPropsType) => {
+const Header = ({ isLoggedIn, userObj }: HeaderPropsType) => {
   const [activeMobileSideMenu, setActiveMobileSideMenu] = useState(false);
 
-  const { responseGoogle, LogOut } = useAuthService();
-
-  const { userObj } = useUser();
+  const { responseGoogle, handleLogOut } = useAuthService();
 
   return (
     <>
@@ -28,20 +28,20 @@ const Header = ({ isLoggedIn }: HeaderPropsType) => {
             </Link>
           </div>
           <div className="hello-user">
-            {isLoggedIn ? (
+            {userObj ? (
               <>
                 <span className="user-email">
-                  반가워요,
-                  <Link to="/profile">{userObj?.user.nickname}님</Link>
+                  HELLO,
+                  <Link to="/profile">{userObj?.nickname}</Link>
                 </span>
                 <div className="header-separate"></div>
-                <button className="logout" onClick={LogOut}>
+                <button className="logout" onClick={handleLogOut}>
                   logout
                 </button>
               </>
             ) : (
               <>
-                <span className="user-email">반가워요, 로그인 해주세요!</span>
+                <span className="user-email">Welcome~!</span>
                 <div className="header-separate"></div>
                 <GoogleLogin
                   clientId="47989076113-v9i17kn2i3bku3ko07pu287du8akot88.apps.googleusercontent.com"
