@@ -1,4 +1,4 @@
-import { refreshUrl, signInUrl, signUpUrl } from "api/auth";
+import { refreshUrl, signInUrl, signOutUrl, signUpUrl } from "api/auth";
 import {
   GoogleLoginResponse,
   GoogleLoginResponseOffline,
@@ -50,7 +50,8 @@ function useAuthService() {
     }
   };
 
-  const handleLogOut = () => {
+  const handleLogOut = async () => {
+    await signOutUrl();
     dispatch(logOut());
   };
 

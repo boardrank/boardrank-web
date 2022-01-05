@@ -23,6 +23,13 @@ export const signInUrl = async ({ tokenId }: SignUpUrlRequestType) => {
 export const refreshUrl = async () => {
   return await axios({
     url: "auth/refresh",
-    method: "post",
+    method: "POST",
+  });
+};
+
+export const signOutUrl = async () => {
+  return await axios({
+    url: "auth/sign-out",
+    method: "DELETE",
   });
 };
