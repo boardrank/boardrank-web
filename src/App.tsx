@@ -6,6 +6,7 @@ import "./styles/css/style.css";
 import styled from "styled-components";
 import useUser from "hooks/useUser";
 import { useEffect, useState } from "react";
+import { refreshUrl } from "api/auth";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
@@ -18,6 +19,10 @@ function App() {
   useEffect(() => {
     LoginCheck();
   }, [userObj]);
+
+  useEffect(() => {
+    refreshUrl();
+  }, []);
 
   return (
     <Router>

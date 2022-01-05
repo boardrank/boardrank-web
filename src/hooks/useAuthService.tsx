@@ -1,4 +1,4 @@
-import { signInUrl, signUpUrl } from "api/auth";
+import { refreshUrl, signInUrl, signOutUrl, signUpUrl } from "api/auth";
 import {
   GoogleLoginResponse,
   GoogleLoginResponseOffline,
@@ -6,7 +6,8 @@ import {
 import { ApiErrorResponse } from "types/api";
 import { AxiosError } from "axios";
 import { useDispatch } from "react-redux";
-import { logOut, signIn, signUp } from "_redux/auth";
+import { logOut, refresh, signIn, signUp } from "_redux/auth";
+import { useEffect } from "react";
 
 export const getAxiosError = (error: any) => {
   if ((error as AxiosError).isAxiosError && error.response) {
@@ -49,11 +50,27 @@ function useAuthService() {
     }
   };
 
-  const handleLogOut = () => {
+  const handleLogOut = async () => {
+    await signOutUrl();
     dispatch(logOut());
   };
 
-  return { responseGoogle, handleLogOut };
+  const handleRefresh = async (
+    callback: () => {},
+    errorCode: number | undefined
+  ) => {
+    if (errorCode === 4011) {
+      try {
+        const res = await refreshUrl();
+        dispatch(refresh(res.data.accessToken));
+        callback();
+      } catch (error) {
+        throw error;
+      }
+    }
+  };
+
+  return { responseGoogle, handleLogOut, handleRefresh };
 }
 
 export default useAuthService;
