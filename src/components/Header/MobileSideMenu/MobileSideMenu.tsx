@@ -1,10 +1,8 @@
 import useAuthService from "hooks/useAuthService";
 import useUser from "hooks/useUser";
-import React from "react";
 import GoogleLogin, { GoogleLoginResponse } from "react-google-login";
 import styled from "styled-components";
 import palette from "styles/palette";
-import { userType } from "types/user";
 
 export interface MobileSideMenuPropsType {
   setActiveMobileSideMenu: (value: boolean) => void;

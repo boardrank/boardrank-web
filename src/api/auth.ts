@@ -19,3 +19,10 @@ export const signInUrl = async ({ tokenId }: SignUpUrlRequestType) => {
     data: { idToken: tokenId },
   });
 };
+
+export const refreshUrl = async () => {
+  return await axios({
+    url: "auth/refresh",
+    method: "post",
+  });
+};
