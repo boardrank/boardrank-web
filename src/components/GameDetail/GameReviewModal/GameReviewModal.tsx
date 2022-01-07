@@ -74,7 +74,7 @@ function GameReviewModal({ closeModal, gameId }: GameReviewModalPropsType) {
           onClick={handleCloseModal}
         />
         <h2>{game && game.name}</h2>
-        <RatingArea>
+        <RatingArea myRatingNum={myRatingNum}>
           <div className="rating-star">
             {myRating.map((n, idx) => {
               return (
@@ -193,7 +193,7 @@ const ModalContainer = styled.article`
   }
 `;
 
-const RatingArea = styled.form`
+const RatingArea = styled.form<{ myRatingNum: number }>`
   display: flex;
   flex-direction: column;
   margin-bottom: 40px;
@@ -211,8 +211,8 @@ const RatingArea = styled.form`
       font-size: 36px;
       line-height: 36px;
       font-weight: 500;
-      /* color: ${palette.grey_7}; */
-      color: ${palette.main_0};
+      color: ${(props) =>
+        props.myRatingNum === 0 ? palette.grey_7 : palette.main_0};
       width: 23px;
     }
   }
