@@ -1,4 +1,5 @@
 import useGameDetail from "hooks/useGameDetail";
+import useScore from "hooks/useScore";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import palette from "styles/palette";
@@ -9,23 +10,6 @@ export interface GameReviewModalPropsType {
 }
 
 function GameReviewModal({ closeModal, gameId }: GameReviewModalPropsType) {
-  const isBrowser = typeof window !== "undefined";
-  const [height, setHeight] = useState(isBrowser ? window.innerHeight : 0);
-
-  useEffect(() => {
-    if (!isBrowser) return;
-
-    const setWindowSize = () => {
-      setHeight(window.innerHeight);
-    };
-
-    window.addEventListener("resize", setWindowSize);
-
-    return () => {
-      window.removeEventListener("resize", setWindowSize);
-    };
-  }, [isBrowser]);
-
   const handleCloseModal = (e: React.MouseEvent) => {
     if (e.target === e.currentTarget) {
       closeModal(false);
@@ -35,9 +19,59 @@ function GameReviewModal({ closeModal, gameId }: GameReviewModalPropsType) {
   const { gameData } = useGameDetail({ gameId });
   const game = gameData?.boardGame;
 
+  const {
+    hookForm: {
+      register,
+      formState: { errors },
+      handleSubmit,
+    },
+    handlePostReply,
+    isPostSuccess,
+  } = useScore({ gameId });
+
+  const [myRating, setMyRating] = useState([
+    { state: "empty", id: 0 },
+    { state: "empty", id: 1 },
+    { state: "empty", id: 2 },
+    { state: "empty", id: 3 },
+    { state: "empty", id: 4 },
+  ]);
+
+  const [myRatingNum, setMyRatingNum] = useState(0);
+
+  const handleStarClick = (index: number, e: React.MouseEvent) => {
+    const clientRect = e.currentTarget.getBoundingClientRect();
+    let clickStates = [...myRating];
+    for (let i = 0; i <= 4; i++) {
+      clickStates[i].state = i <= index ? "full" : "empty";
+    }
+    if (e.clientX <= clientRect.x + 20) {
+      clickStates[index].state = "half";
+    }
+
+    setMyRating(clickStates);
+  };
+
+  const handleMyRatingNum = () => {
+    let newRating = 0;
+    for (let i = 0; i < 5; i++) {
+      newRating =
+        myRating[i].state === "full"
+          ? newRating + 2
+          : myRating[i].state === "half"
+          ? newRating + 1
+          : newRating;
+    }
+    setMyRatingNum(newRating);
+  };
+
+  useEffect(() => {
+    handleMyRatingNum();
+  }, [myRating]);
+
   return (
-    <ModalWrapper onClick={handleCloseModal} height={height}>
-      <ModalContainer>
+    <ModalWrapper onClick={handleCloseModal}>
+      <ModalContainer onSubmit={handleSubmit(handlePostReply)}>
         <img
           className="close-modal-button pc"
           src="/image/close_modal.svg"
@@ -51,25 +85,45 @@ function GameReviewModal({ closeModal, gameId }: GameReviewModalPropsType) {
           onClick={handleCloseModal}
         />
         <h2>{game && game.name}</h2>
-        <RatingArea>
+        <RatingArea myRatingNum={myRatingNum}>
           <div className="rating-star">
-            <img src="/image/star.svg" alt="꽉찬 별 아이콘" />
-            <img src="/image/star.svg" alt="꽉찬 별 아이콘" />
-            <img src="/image/star.svg" alt="꽉찬 별 아이콘" />
-            <img src="/image/star.svg" alt="꽉찬 별 아이콘" />
-            <img src="/image/star.svg" alt="꽉찬 별 아이콘" />
-            <p className="font-jost">0</p>
+            {myRating.map((n, idx) => {
+              return (
+                <img
+                  src={
+                    n.state === "full"
+                      ? "/image/star.svg"
+                      : n.state === "empty"
+                      ? "/image/star_border.svg"
+                      : n.state === "half"
+                      ? "/image/star_half.svg"
+                      : ""
+                  }
+                  alt="별 아이콘"
+                  onClick={(e) => handleStarClick(n.id, e)}
+                  key={idx}
+                />
+              );
+            })}
+            <p className="font-jost">{myRatingNum}</p>
+            <input type="hidden" value={myRatingNum} {...register("score")} />
           </div>
           <p className="description">별점을 선택하세요</p>
         </RatingArea>
-        <textarea placeholder="게임에 대한 리뷰를 남겨주세요."></textarea>
-        <StyledSubmitButton>평가 등록하기</StyledSubmitButton>
+        <textarea
+          placeholder="게임에 대한 리뷰를 남겨주세요."
+          {...register("comment")}
+        ></textarea>
+
+        {!isPostSuccess && <p>별점과 리뷰를 확인하세요</p>}
+
+        <StyledSubmitButton type="submit">평가 등록하기</StyledSubmitButton>
       </ModalContainer>
     </ModalWrapper>
   );
 }
 
-const ModalWrapper = styled.article<{ height: number }>`
+const ModalWrapper = styled.article`
   position: fixed;
   top: 0;
   left: 0;
@@ -82,13 +136,12 @@ const ModalWrapper = styled.article<{ height: number }>`
   align-items: center;
   @media ${(props) => props.theme.tablet} {
     align-items: flex-end;
-    /* height: ${(props) => (props.height ? props.height : "")}px; */
     top: unset;
     bottom: 0;
   }
 `;
 
-const ModalContainer = styled.article`
+const ModalContainer = styled.form`
   width: 780px;
   padding: 48px 100px;
   background-color: ${palette.grey_1};
@@ -123,6 +176,7 @@ const ModalContainer = styled.article`
     font-weight: 400;
     color: ${palette.grey_8};
     margin-bottom: 40px;
+    resize: none;
     &::placeholder {
       color: ${palette.grey_5};
     }
@@ -158,7 +212,7 @@ const ModalContainer = styled.article`
   }
 `;
 
-const RatingArea = styled.section`
+const RatingArea = styled.section<{ myRatingNum: number }>`
   display: flex;
   flex-direction: column;
   margin-bottom: 40px;
@@ -169,14 +223,16 @@ const RatingArea = styled.section`
     margin-bottom: 8px;
     img {
       width: 40px;
+      cursor: pointer;
     }
     p {
       margin-left: 16px;
       font-size: 36px;
       line-height: 36px;
       font-weight: 500;
-      /* color: ${palette.grey_7}; */
-      color: ${palette.main_0};
+      color: ${(props) =>
+        props.myRatingNum === 0 ? palette.grey_7 : palette.main_0};
+      width: 23px;
     }
   }
   .description {

@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import useGameDetail from "hooks/useGameDetail";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import palette from "styles/palette";
 import GameReviewModal from "../GameReviewModal/GameReviewModal";
@@ -9,22 +10,67 @@ export interface GameReviewPropsType {
 
 function GameReview({ gameId }: GameReviewPropsType) {
   const [isReviewModal, setIsReviewModal] = useState(false);
+  const { gameData } = useGameDetail({ gameId });
+  const game = gameData?.boardGame;
+  const scores = gameData?.boardGame.boardGameScores;
+
+  const [ratingStar, setRatingStar] = useState([
+    "empty",
+    "empty",
+    "empty",
+    "empty",
+    "empty",
+  ]);
+
+  const handleStars = () => {
+    let newRatingStar = [];
+    for (let i = 0; i < 5; i++) {
+      if (game && i === (game?.averageScore - 1) % 2) {
+        newRatingStar[i] = "full";
+      } else if (game && i < game?.averageScore % 2) {
+        newRatingStar[i] = "half";
+      } else {
+        newRatingStar[i] = "empty";
+      }
+    }
+
+    setRatingStar(newRatingStar);
+  };
+
+  useEffect(() => {
+    handleStars();
+    console.log(game);
+  }, [game]);
 
   return (
     <>
       <GameReviewWrapper>
-        <TitleWrapper>
+        <TitleWrapper averageScore={game?.averageScore}>
           <div className="title-container">
             <p className="title font-jost">
               User<span>Point</span>
             </p>
-            <p className="rating font-jost">9</p>
+            <p className="rating font-jost">
+              {game?.averageScore === 0 ? "0" : game?.averageScore}
+            </p>
             <div className="rating-star">
-              <img src="/image/star.svg" alt="꽉찬 별 아이콘" />
-              <img src="/image/star.svg" alt="꽉찬 별 아이콘" />
-              <img src="/image/star.svg" alt="꽉찬 별 아이콘" />
-              <img src="/image/star.svg" alt="꽉찬 별 아이콘" />
-              <img src="/image/star.svg" alt="꽉찬 별 아이콘" />
+              {ratingStar.map((n, idx) => {
+                return (
+                  <img
+                    src={
+                      n === "full"
+                        ? "/image/star.svg"
+                        : n === "empty"
+                        ? "/image/star_border.svg"
+                        : n === "half"
+                        ? "/image/star_half.svg"
+                        : ""
+                    }
+                    alt="별 아이콘"
+                    key={idx}
+                  />
+                );
+              })}
             </div>
           </div>
           <StyledButton
@@ -35,52 +81,35 @@ function GameReview({ gameId }: GameReviewPropsType) {
             <span>👀 </span>나도 이 게임 평가하기~!
           </StyledButton>
         </TitleWrapper>
-        <Review>
-          <div className="review-info">
-            <div className="star-container">
-              <div className="rating-star">
-                <img src="/image/star.svg" alt="꽉찬 별 아이콘" />
-                <img src="/image/star.svg" alt="꽉찬 별 아이콘" />
-                <img src="/image/star.svg" alt="꽉찬 별 아이콘" />
-                <img src="/image/star.svg" alt="꽉찬 별 아이콘" />
-                <img src="/image/star.svg" alt="꽉찬 별 아이콘" />
-              </div>
-              <p>username*******</p>
-            </div>
-            <p className="date">2021.12.12</p>
-          </div>
-          <p className="review-contents">
-            승부욕 불태우기 딱 좋은 게임입니다. 추천해용!!!승부욕 불태우기 딱
-            좋은 게임입니다. 추천해용!!!승부욕 불태우기 딱 좋은 게임입니다.
-            추천해용!!!승부욕 불태우기 딱 좋은 게임입니다. 추천해용!!!승부욕
-            불태우기 딱 좋은 게임입니다. 추천해용!!!승부욕 불태우기 딱 좋은
-            게임입니다. 추천해용!!!승부욕 불태우기 딱 좋은 게임입니다.
-            추천해용!!!승부욕 불태우기 딱 좋은 게임입니다. 추천해용!!!
-          </p>
-        </Review>
-        <Review>
-          <div className="review-info">
-            <div className="star-container">
-              <div className="rating-star">
-                <img src="/image/star.svg" alt="꽉찬 별 아이콘" />
-                <img src="/image/star.svg" alt="꽉찬 별 아이콘" />
-                <img src="/image/star.svg" alt="꽉찬 별 아이콘" />
-                <img src="/image/star.svg" alt="꽉찬 별 아이콘" />
-                <img src="/image/star.svg" alt="꽉찬 별 아이콘" />
-              </div>
-              <p>username*******</p>
-            </div>
-            <p className="date">2021.12.12</p>
-          </div>
-          <p className="review-contents">
-            승부욕 불태우기 딱 좋은 게임입니다. 추천해용!!!승부욕 불태우기 딱
-            좋은 게임입니다. 추천해용!!!승부욕 불태우기 딱 좋은 게임입니다.
-            추천해용!!!승부욕 불태우기 딱 좋은 게임입니다. 추천해용!!!승부욕
-            불태우기 딱 좋은 게임입니다. 추천해용!!!승부욕 불태우기 딱 좋은
-            게임입니다. 추천해용!!!승부욕 불태우기 딱 좋은 게임입니다.
-            추천해용!!!승부욕 불태우기 딱 좋은 게임입니다. 추천해용!!!
-          </p>
-        </Review>
+        {scores &&
+          scores.map(() => {
+            return (
+              <Review>
+                <div className="review-info">
+                  <div className="star-container">
+                    <div className="rating-star">
+                      <img src="/image/star.svg" alt="꽉찬 별 아이콘" />
+                      <img src="/image/star.svg" alt="꽉찬 별 아이콘" />
+                      <img src="/image/star.svg" alt="꽉찬 별 아이콘" />
+                      <img src="/image/star.svg" alt="꽉찬 별 아이콘" />
+                      <img src="/image/star.svg" alt="꽉찬 별 아이콘" />
+                    </div>
+                    <p>username*******</p>
+                  </div>
+                  <p className="date">2021.12.12</p>
+                </div>
+                <p className="review-contents">
+                  승부욕 불태우기 딱 좋은 게임입니다. 추천해용!!!승부욕 불태우기
+                  딱 좋은 게임입니다. 추천해용!!!승부욕 불태우기 딱 좋은
+                  게임입니다. 추천해용!!!승부욕 불태우기 딱 좋은 게임입니다.
+                  추천해용!!!승부욕 불태우기 딱 좋은 게임입니다.
+                  추천해용!!!승부욕 불태우기 딱 좋은 게임입니다.
+                  추천해용!!!승부욕 불태우기 딱 좋은 게임입니다.
+                  추천해용!!!승부욕 불태우기 딱 좋은 게임입니다. 추천해용!!!
+                </p>
+              </Review>
+            );
+          })}
       </GameReviewWrapper>
       {isReviewModal && (
         <GameReviewModal closeModal={setIsReviewModal} gameId={gameId} />
@@ -95,7 +124,7 @@ const GameReviewWrapper = styled.section`
   margin: 0 auto;
 `;
 
-const TitleWrapper = styled.section`
+const TitleWrapper = styled.section<{ averageScore: number | undefined }>`
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -121,7 +150,8 @@ const TitleWrapper = styled.section`
       font-size: 32px;
       line-height: 32px;
       font-weight: 700;
-      color: ${palette.main_0};
+      color: ${(props) =>
+        props.averageScore !== 0 ? palette.main_0 : palette.grey_7};
     }
     .rating-star {
       margin-left: 12px;
