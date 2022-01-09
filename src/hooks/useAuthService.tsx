@@ -7,7 +7,6 @@ import { ApiErrorResponse } from "types/api";
 import { AxiosError } from "axios";
 import { useDispatch } from "react-redux";
 import { logOut, refresh, signIn, signUp } from "_redux/auth";
-import { useEffect } from "react";
 
 export const getAxiosError = (error: any) => {
   if ((error as AxiosError).isAxiosError && error.response) {

@@ -1,4 +1,5 @@
 import useGameDetail from "hooks/useGameDetail";
+import useScore from "hooks/useScore";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import palette from "styles/palette";
@@ -17,6 +18,16 @@ function GameReviewModal({ closeModal, gameId }: GameReviewModalPropsType) {
 
   const { gameData } = useGameDetail({ gameId });
   const game = gameData?.boardGame;
+
+  const {
+    hookForm: {
+      register,
+      formState: { errors },
+      handleSubmit,
+    },
+    handlePostReply,
+    isPostSuccess,
+  } = useScore({ gameId });
 
   const [myRating, setMyRating] = useState([
     { state: "empty", id: 0 },
@@ -60,7 +71,7 @@ function GameReviewModal({ closeModal, gameId }: GameReviewModalPropsType) {
 
   return (
     <ModalWrapper onClick={handleCloseModal}>
-      <ModalContainer>
+      <ModalContainer onSubmit={handleSubmit(handlePostReply)}>
         <img
           className="close-modal-button pc"
           src="/image/close_modal.svg"
@@ -88,18 +99,25 @@ function GameReviewModal({ closeModal, gameId }: GameReviewModalPropsType) {
                       ? "/image/star_half.svg"
                       : ""
                   }
-                  alt="꽉찬 별 아이콘"
+                  alt="별 아이콘"
                   onClick={(e) => handleStarClick(n.id, e)}
                   key={idx}
                 />
               );
             })}
             <p className="font-jost">{myRatingNum}</p>
+            <input type="hidden" value={myRatingNum} {...register("score")} />
           </div>
           <p className="description">별점을 선택하세요</p>
         </RatingArea>
-        <textarea placeholder="게임에 대한 리뷰를 남겨주세요."></textarea>
-        <StyledSubmitButton>평가 등록하기</StyledSubmitButton>
+        <textarea
+          placeholder="게임에 대한 리뷰를 남겨주세요."
+          {...register("comment")}
+        ></textarea>
+
+        {!isPostSuccess && <p>별점과 리뷰를 확인하세요</p>}
+
+        <StyledSubmitButton type="submit">평가 등록하기</StyledSubmitButton>
       </ModalContainer>
     </ModalWrapper>
   );
@@ -123,7 +141,7 @@ const ModalWrapper = styled.article`
   }
 `;
 
-const ModalContainer = styled.article`
+const ModalContainer = styled.form`
   width: 780px;
   padding: 48px 100px;
   background-color: ${palette.grey_1};
@@ -158,6 +176,7 @@ const ModalContainer = styled.article`
     font-weight: 400;
     color: ${palette.grey_8};
     margin-bottom: 40px;
+    resize: none;
     &::placeholder {
       color: ${palette.grey_5};
     }
@@ -193,7 +212,7 @@ const ModalContainer = styled.article`
   }
 `;
 
-const RatingArea = styled.form<{ myRatingNum: number }>`
+const RatingArea = styled.section<{ myRatingNum: number }>`
   display: flex;
   flex-direction: column;
   margin-bottom: 40px;
