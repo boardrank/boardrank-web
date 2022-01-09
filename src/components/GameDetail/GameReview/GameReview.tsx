@@ -25,10 +25,10 @@ function GameReview({ gameId }: GameReviewPropsType) {
   const handleStars = () => {
     let newRatingStar = [];
     for (let i = 0; i < 5; i++) {
-      if (game && i === (game?.averageScore - 1) % 2) {
-        newRatingStar[i] = "full";
-      } else if (game && i < game?.averageScore % 2) {
+      if (game && i === (game?.averageScore - 1) / 2) {
         newRatingStar[i] = "half";
+      } else if (game && i < game?.averageScore / 2) {
+        newRatingStar[i] = "full";
       } else {
         newRatingStar[i] = "empty";
       }

@@ -28,7 +28,7 @@ function GameReviewModal({ closeModal, gameId }: GameReviewModalPropsType) {
     handlePostReply,
     isPostSuccess,
     setValue,
-  } = useScore({ gameId });
+  } = useScore({ gameId, closeModal });
 
   const [myRating, setMyRating] = useState([
     { state: "empty", id: 0 },
