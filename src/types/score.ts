@@ -1,4 +1,4 @@
 export interface BoardGameScoreUrlRequestType {
-  score: string;
-  comment: number;
+  score: number;
+  comment: string;
 }

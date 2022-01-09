@@ -39,7 +39,6 @@ function GameReview({ gameId }: GameReviewPropsType) {
 
   useEffect(() => {
     handleStars();
-    console.log(game);
   }, [game]);
 
   return (
@@ -82,7 +81,7 @@ function GameReview({ gameId }: GameReviewPropsType) {
           </StyledButton>
         </TitleWrapper>
         {scores &&
-          scores.map(() => {
+          scores.map((n, idx) => {
             return (
               <Review>
                 <div className="review-info">
@@ -98,15 +97,7 @@ function GameReview({ gameId }: GameReviewPropsType) {
                   </div>
                   <p className="date">2021.12.12</p>
                 </div>
-                <p className="review-contents">
-                  승부욕 불태우기 딱 좋은 게임입니다. 추천해용!!!승부욕 불태우기
-                  딱 좋은 게임입니다. 추천해용!!!승부욕 불태우기 딱 좋은
-                  게임입니다. 추천해용!!!승부욕 불태우기 딱 좋은 게임입니다.
-                  추천해용!!!승부욕 불태우기 딱 좋은 게임입니다.
-                  추천해용!!!승부욕 불태우기 딱 좋은 게임입니다.
-                  추천해용!!!승부욕 불태우기 딱 좋은 게임입니다.
-                  추천해용!!!승부욕 불태우기 딱 좋은 게임입니다. 추천해용!!!
-                </p>
+                <p className="review-contents">{n.comment}</p>
               </Review>
             );
           })}

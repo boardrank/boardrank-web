@@ -64,6 +64,7 @@ export interface GameType {
         score: number;
         userId: number;
         boardGameId: number;
+        comment: string;
       }
     ];
   };

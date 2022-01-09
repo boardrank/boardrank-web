@@ -10,8 +10,9 @@ export interface useScorePropsType {
 
 const useScore = ({ gameId }: useScorePropsType) => {
   const hookForm = useForm({
-    mode: "all",
+    mode: "onBlur",
   });
+  const { setValue } = hookForm;
 
   const [isPostSuccess, setIsPostSuccess] = useState<boolean>(true);
 
@@ -20,13 +21,13 @@ const useScore = ({ gameId }: useScorePropsType) => {
       await boardGameReplyUrl(formData, gameId);
     } catch (error) {
       const axiosErrorData = getAxiosError(error);
-      console.log(axiosErrorData?.errorCode, axiosErrorData?.errorMsg);
+      // console.log(axiosErrorData?.errorCode, axiosErrorData?.errorMsg);
       if (axiosErrorData?.errorCode === 4010) alert("먼저 로그인 해주세요");
       throw error;
     }
   };
 
-  return { hookForm, handlePostReply, isPostSuccess };
+  return { hookForm, handlePostReply, isPostSuccess, setValue };
 };
 
 export default useScore;
