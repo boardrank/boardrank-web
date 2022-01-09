@@ -6,27 +6,32 @@ import { getAxiosError } from "./useAuthService";
 
 export interface useScorePropsType {
   gameId: number;
+  closeModal?: (value: boolean) => void;
 }
 
-const useScore = ({ gameId }: useScorePropsType) => {
+const useScore = ({ gameId, closeModal }: useScorePropsType) => {
   const hookForm = useForm({
-    mode: "all",
+    mode: "onBlur",
   });
+  const { setValue } = hookForm;
 
   const [isPostSuccess, setIsPostSuccess] = useState<boolean>(true);
 
   const handlePostReply = async (formData: BoardGameScoreUrlRequestType) => {
     try {
       await boardGameReplyUrl(formData, gameId);
+      closeModal && closeModal(false);
     } catch (error) {
       const axiosErrorData = getAxiosError(error);
       console.log(axiosErrorData?.errorCode, axiosErrorData?.errorMsg);
       if (axiosErrorData?.errorCode === 4010) alert("먼저 로그인 해주세요");
+      if (axiosErrorData?.errorCode === 4091) alert(axiosErrorData?.errorMsg);
+      closeModal && closeModal(false);
       throw error;
     }
   };
 
-  return { hookForm, handlePostReply, isPostSuccess };
+  return { hookForm, handlePostReply, isPostSuccess, setValue };
 };
 
 export default useScore;

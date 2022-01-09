@@ -27,7 +27,8 @@ function GameReviewModal({ closeModal, gameId }: GameReviewModalPropsType) {
     },
     handlePostReply,
     isPostSuccess,
-  } = useScore({ gameId });
+    setValue,
+  } = useScore({ gameId, closeModal });
 
   const [myRating, setMyRating] = useState([
     { state: "empty", id: 0 },
@@ -69,6 +70,10 @@ function GameReviewModal({ closeModal, gameId }: GameReviewModalPropsType) {
     handleMyRatingNum();
   }, [myRating]);
 
+  useEffect(() => {
+    setValue("score", myRatingNum);
+  }, [myRatingNum]);
+
   return (
     <ModalWrapper onClick={handleCloseModal}>
       <ModalContainer onSubmit={handleSubmit(handlePostReply)}>
@@ -106,10 +111,10 @@ function GameReviewModal({ closeModal, gameId }: GameReviewModalPropsType) {
               );
             })}
             <p className="font-jost">{myRatingNum}</p>
-            <input type="hidden" value={myRatingNum} {...register("score")} />
           </div>
           <p className="description">별점을 선택하세요</p>
         </RatingArea>
+        <input type="hidden" {...register("score")} />
         <textarea
           placeholder="게임에 대한 리뷰를 남겨주세요."
           {...register("comment")}

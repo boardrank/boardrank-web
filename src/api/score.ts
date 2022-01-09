@@ -14,14 +14,15 @@ export const boardGameReplyUrl = async (
   req: BoardGameScoreUrlRequestType,
   gameId: number
 ) => {
+  const score = Number(req.score);
   return await axios({
     url: "board-game-score",
     method: "POST",
     data: {
       boardGameScore: {
-        score: req.score,
+        score: score,
         comment: req.comment,
-        boardGameId: gameId,
+        boardGameId: Number(gameId),
       },
     },
   });
