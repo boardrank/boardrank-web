@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import palette from "styles/palette";
 import GameReviewModal from "../GameReviewModal/GameReviewModal";
+import ScoreSection from "./ScoreSection";
 
 export interface GameReviewPropsType {
   gameId: number;
@@ -82,24 +83,7 @@ function GameReview({ gameId }: GameReviewPropsType) {
         </TitleWrapper>
         {scores &&
           scores.map((n, idx) => {
-            return (
-              <Review>
-                <div className="review-info">
-                  <div className="star-container">
-                    <div className="rating-star">
-                      <img src="/image/star.svg" alt="꽉찬 별 아이콘" />
-                      <img src="/image/star.svg" alt="꽉찬 별 아이콘" />
-                      <img src="/image/star.svg" alt="꽉찬 별 아이콘" />
-                      <img src="/image/star.svg" alt="꽉찬 별 아이콘" />
-                      <img src="/image/star.svg" alt="꽉찬 별 아이콘" />
-                    </div>
-                    <p>username*******</p>
-                  </div>
-                  <p className="date">2021.12.12</p>
-                </div>
-                <p className="review-contents">{n.comment}</p>
-              </Review>
-            );
+            return <ScoreSection info={n} key={idx} />;
           })}
       </GameReviewWrapper>
       {isReviewModal && (
@@ -195,83 +179,6 @@ const StyledButton = styled.button`
     left: 0;
     width: 100%;
     height: 68px;
-  }
-`;
-
-const Review = styled.section`
-  padding-bottom: 44px;
-  margin-bottom: 44px;
-  border-bottom: 1px solid ${palette.grey_2};
-  &:last-child {
-    margin-bottom: 0;
-  }
-  .review-info {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 12px;
-    .star-container {
-      display: flex;
-      align-items: center;
-      .rating-star {
-        img {
-          width: 24px;
-        }
-      }
-      p {
-        font-size: 14px;
-        font-weight: 500;
-        line-height: 22.4px;
-        color: ${palette.grey_6};
-        margin-left: 12px;
-      }
-    }
-    .date {
-      font-size: 14px;
-      line-height: 22.4px;
-      font-weight: 500;
-      color: ${palette.grey_6};
-      padding-right: 5px;
-    }
-  }
-  .review-contents {
-    font-size: 16px;
-    line-height: 25.6px;
-    font-weight: 500;
-    color: ${palette.grey_7};
-  }
-  @media ${(props) => props.theme.tablet} {
-    padding-bottom: 24px;
-    margin-bottom: 24px;
-    .review-info {
-      display: block;
-      margin-bottom: 2px;
-      .star-container {
-        margin-bottom: 2px;
-        .rating-star {
-          img {
-            width: 20px;
-          }
-        }
-        p {
-          font-size: 12px;
-          line-height: 160%;
-          color: ${palette.grey_7};
-          margin-left: 8px;
-        }
-      }
-      .date {
-        font-size: 12px;
-        line-height: 160%;
-        color: ${palette.grey_6};
-        padding-left: 4px;
-      }
-    }
-    .review-contents {
-      padding: 0 4px;
-      font-size: 14px;
-      line-height: 160%;
-    }
   }
 `;
 
