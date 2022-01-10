@@ -26,7 +26,6 @@ function GameReviewModal({ closeModal, gameId }: GameReviewModalPropsType) {
       handleSubmit,
     },
     handlePostReply,
-    isPostSuccess,
     setValue,
   } = useScore({ gameId, closeModal });
 
@@ -114,13 +113,20 @@ function GameReviewModal({ closeModal, gameId }: GameReviewModalPropsType) {
           </div>
           <p className="description">별점을 선택하세요</p>
         </RatingArea>
-        <input type="hidden" {...register("score")} />
+        <input
+          type="hidden"
+          {...register("score", {
+            required: { value: true, message: "별점을 선택하세요" },
+          })}
+        />
         <textarea
           placeholder="게임에 대한 리뷰를 남겨주세요."
-          {...register("comment")}
+          {...register("comment", {
+            required: { value: true, message: "리뷰를 입력하세요" },
+          })}
         ></textarea>
 
-        {!isPostSuccess && <p>별점과 리뷰를 확인하세요</p>}
+        {(errors.score || errors.comment) && <p>별점과 리뷰를 입력해주세요</p>}
 
         <StyledSubmitButton type="submit">평가 등록하기</StyledSubmitButton>
       </ModalContainer>
