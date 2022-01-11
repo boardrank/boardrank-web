@@ -12,13 +12,14 @@ interface ScoreSectionPropsType {
     userId: number;
     boardGameId: number;
     comment: string;
-    createAt: string;
+    createdAt: string;
   };
 }
 
 const ScoreSection = ({ info }: ScoreSectionPropsType) => {
   const rating = Star(info.score);
   const userObj: userType | null = useOtherUser(info.userId);
+  const createdAt = info.createdAt.split("T");
   return (
     <Review>
       <div className="review-info">
@@ -44,7 +45,7 @@ const ScoreSection = ({ info }: ScoreSectionPropsType) => {
           </div>
           <p>{userObj && userObj.nickname}</p>
         </div>
-        {/* <p className="date">{info.createAt}</p> */}
+        <p className="date">{createdAt[0]}</p>
       </div>
       <p className="review-contents">{info.comment}</p>
     </Review>

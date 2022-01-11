@@ -65,7 +65,7 @@ export interface GameType {
         userId: number;
         boardGameId: number;
         comment: string;
-        createAt: string;
+        createdAt: string;
       }
     ];
   };
