@@ -49,6 +49,7 @@ const StyledGenry = styled.div`
   ul {
     display: flex;
     justify-content: center;
+    white-space: nowrap;
     li {
       margin: 0 25px;
       font-weight: normal;
@@ -72,12 +73,12 @@ const StyledGenry = styled.div`
 
   @media ${(props) => props.theme.tablet} {
     margin: 0;
-    padding: 28px 24px;
-    overflow-x: scroll;
+    padding: 0;
     border-bottom: 1px solid ${palette.grey_2};
     ul {
-      width: 760px;
       justify-content: start;
+      padding: 28px 24px;
+      overflow-x: scroll;
     }
   }
 `;
