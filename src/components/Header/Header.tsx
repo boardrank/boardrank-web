@@ -48,6 +48,7 @@ const Header = ({ isLoggedIn }: HeaderPropsType) => {
                     <button
                       onClick={renderProps.onClick}
                       disabled={renderProps.disabled}
+                      className="login"
                     >
                       login with Google
                     </button>
@@ -123,7 +124,7 @@ const StyledHeader = styled.header`
         width: 1px;
         height: 16px;
         background-color: ${palette.grey_1};
-        margin-right: 44px;
+        margin-right: 28px;
       }
       button {
         font-weight: normal;
@@ -132,7 +133,6 @@ const StyledHeader = styled.header`
         color: ${palette.grey_1};
         cursor: pointer;
         background: none;
-        padding: 0;
       }
     }
     .logout,
@@ -143,10 +143,22 @@ const StyledHeader = styled.header`
       color: ${palette.grey_1};
       cursor: pointer;
       background: none;
-      padding: 0;
+      padding: 10px 40px 14px;
+      border: 1px solid ${palette.grey_6};
+      position: relative;
+      border-radius: 3px;
 
       &:hover {
-        text-decoration: underline;
+        &:after {
+          content: "";
+          width: 100%;
+          height: 100%;
+          position: absolute;
+          top: 0;
+          left: 0;
+          background-color: ${palette.grey_1};
+          opacity: 0.1;
+        }
       }
     }
 
