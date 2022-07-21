@@ -1,6 +1,5 @@
 import { boardGameReplyUrl } from "api/score";
-import React, { useCallback, useEffect, useState } from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { BoardGameScoreUrlRequestType } from "types/score";
 import { getAxiosError } from "./useAuthService";
 
