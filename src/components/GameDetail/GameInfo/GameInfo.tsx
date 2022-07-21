@@ -2,13 +2,13 @@ import useGameDetail from "hooks/useGameDetail";
 import React from "react";
 import styled from "styled-components";
 import palette from "styles/palette";
+import { GameType } from "types/home";
 
 export interface GameInfoPropsType {
-  gameId: any;
+  gameData: GameType | undefined;
 }
 
-const GameInfo = ({ gameId }: GameInfoPropsType) => {
-  const { gameData } = useGameDetail({ gameId });
+const GameInfo = ({ gameData }: GameInfoPropsType) => {
   const game = gameData?.boardGame;
   return (
     <GameInfoWrapper>
