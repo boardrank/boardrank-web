@@ -139,7 +139,7 @@ const ModalWrapper = styled.article`
   top: 0;
   left: 0;
   width: 100vw;
-  height: 100vh;
+  height: 100%;
   background-color: rgba(34, 34, 36, 0.5);
   z-index: 13;
   display: flex;

@@ -1,5 +1,9 @@
 # 보드랭
 
+## 프로젝트 히스토리
+
+- https://yonghonara.notion.site/99162da8a41d4c72b7e85615b8742284
+
 ## 보드랭 firebase 배포
 
 ### firebase-cli 설치
