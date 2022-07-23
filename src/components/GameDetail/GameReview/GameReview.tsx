@@ -1,17 +1,18 @@
-import useGameDetail from "hooks/useGameDetail";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import palette from "styles/palette";
+import { GameType } from "types/home";
 import GameReviewModal from "../GameReviewModal/GameReviewModal";
 import ScoreSection from "./ScoreSection";
 
 export interface GameReviewPropsType {
   gameId: number;
+  gameData: GameType | undefined;
+  gameDetail: () => void;
 }
 
-function GameReview({ gameId }: GameReviewPropsType) {
+function GameReview({ gameId, gameData, gameDetail }: GameReviewPropsType) {
   const [isReviewModal, setIsReviewModal] = useState(false);
-  const { gameData } = useGameDetail({ gameId });
   const game = gameData?.boardGame;
   const scores = gameData?.boardGame.boardGameScores;
 
@@ -87,7 +88,12 @@ function GameReview({ gameId }: GameReviewPropsType) {
           })}
       </GameReviewWrapper>
       {isReviewModal && (
-        <GameReviewModal closeModal={setIsReviewModal} gameId={gameId} />
+        <GameReviewModal
+          closeModal={setIsReviewModal}
+          gameId={gameId}
+          gameData={gameData}
+          gameDetail={gameDetail}
+        />
       )}
     </>
   );
