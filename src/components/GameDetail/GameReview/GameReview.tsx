@@ -26,13 +26,24 @@ function GameReview({ gameId, gameData, gameDetail }: GameReviewPropsType) {
 
   const handleStars = () => {
     let newRatingStar = [];
-    for (let i = 0; i < 5; i++) {
-      if (game && i === (game?.averageScore - 1) / 2) {
-        newRatingStar[i] = "half";
-      } else if (game && i < game?.averageScore / 2) {
-        newRatingStar[i] = "full";
-      } else {
-        newRatingStar[i] = "empty";
+    const scoreNow = game ? Math.floor(game.averageScore) : 0;
+    if (scoreNow % 2 === 0) {
+      for (let i = 1; i < 6; i++) {
+        if (i <= scoreNow / 2) {
+          newRatingStar[i - 1] = "full";
+        } else {
+          newRatingStar[i - 1] = "empty";
+        }
+      }
+    } else {
+      for (let i = 1; i < 6; i++) {
+        if (i === (scoreNow + 1) / 2) {
+          newRatingStar[i - 1] = "half";
+        } else if (i < (scoreNow + 1) / 2) {
+          newRatingStar[i - 1] = "full";
+        } else {
+          newRatingStar[i - 1] = "empty";
+        }
       }
     }
 
@@ -52,7 +63,7 @@ function GameReview({ gameId, gameData, gameDetail }: GameReviewPropsType) {
               User<span>Point</span>
             </p>
             <p className="rating font-jost">
-              {game?.averageScore === 0 ? "0" : game?.averageScore}
+              {game?.averageScore === 0 ? "0" : game?.averageScore.toFixed(1)}
             </p>
             <div className="rating-star">
               {ratingStar.map((n, idx) => {
