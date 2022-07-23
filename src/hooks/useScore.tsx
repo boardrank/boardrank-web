@@ -1,26 +1,24 @@
 import { boardGameReplyUrl } from "api/score";
-import { useForm } from "react-hook-form";
+import React, { useCallback, useEffect, useState } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { BoardGameScoreUrlRequestType } from "types/score";
 import { getAxiosError } from "./useAuthService";
 
 export interface useScorePropsType {
   gameId: number;
   closeModal?: (value: boolean) => void;
-  gameDetail: () => void;
 }
 
-const useScore = ({ gameId, closeModal, gameDetail }: useScorePropsType) => {
+const useScore = ({ gameId, closeModal }: useScorePropsType) => {
   const hookForm = useForm({
     mode: "onBlur",
   });
   const { setValue } = hookForm;
 
   const handlePostReply = async (formData: BoardGameScoreUrlRequestType) => {
-    const { score, comment } = formData;
     try {
-      await boardGameReplyUrl({ score, comment, gameId });
+      await boardGameReplyUrl(formData, gameId);
       closeModal && closeModal(false);
-      gameDetail();
     } catch (error) {
       const axiosErrorData = getAxiosError(error);
       console.log(axiosErrorData?.errorCode, axiosErrorData?.errorMsg);

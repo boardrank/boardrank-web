@@ -1,28 +1,22 @@
+import useGameDetail from "hooks/useGameDetail";
 import useScore from "hooks/useScore";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import palette from "styles/palette";
-import { GameType } from "types/home";
 
 export interface GameReviewModalPropsType {
   closeModal: (value: boolean) => void;
   gameId: number;
-  gameData: GameType | undefined;
-  gameDetail: () => void;
 }
 
-function GameReviewModal({
-  closeModal,
-  gameId,
-  gameData,
-  gameDetail,
-}: GameReviewModalPropsType) {
+function GameReviewModal({ closeModal, gameId }: GameReviewModalPropsType) {
   const handleCloseModal = (e: React.MouseEvent) => {
     if (e.target === e.currentTarget) {
       closeModal(false);
     }
   };
 
+  const { gameData } = useGameDetail({ gameId });
   const game = gameData?.boardGame;
 
   const {
@@ -33,7 +27,7 @@ function GameReviewModal({
     },
     handlePostReply,
     setValue,
-  } = useScore({ gameId, closeModal, gameDetail });
+  } = useScore({ gameId, closeModal });
 
   const [myRating, setMyRating] = useState([
     { state: "empty", id: 0 },

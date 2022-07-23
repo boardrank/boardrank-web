@@ -1,4 +1,3 @@
-import useGameDetail from "hooks/useGameDetail";
 import React from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
@@ -7,11 +6,10 @@ import GameReview from "./GameReview";
 
 const GameDetail = () => {
   const { gameId }: any = useParams();
-  const { gameData, gameDetail } = useGameDetail({ gameId });
   return (
     <GameDetailWrapper>
-      <GameInfo gameData={gameData} />
-      <GameReview gameId={gameId} gameData={gameData} gameDetail={gameDetail} />
+      <GameInfo gameId={gameId} />
+      <GameReview gameId={gameId} />
     </GameDetailWrapper>
   );
 };

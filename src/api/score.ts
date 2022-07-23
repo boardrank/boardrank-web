@@ -10,18 +10,18 @@ export const getAxiosError = (error: any) => {
   return null;
 };
 
-export const boardGameReplyUrl = async ({
-  score,
-  comment,
-  gameId,
-}: BoardGameScoreUrlRequestType) => {
+export const boardGameReplyUrl = async (
+  req: BoardGameScoreUrlRequestType,
+  gameId: number
+) => {
+  const score = Number(req.score);
   return await axios({
     url: "board-game-score",
     method: "POST",
     data: {
       boardGameScore: {
         score: score,
-        comment: comment,
+        comment: req.comment,
         boardGameId: Number(gameId),
       },
     },

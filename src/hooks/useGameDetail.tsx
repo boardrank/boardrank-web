@@ -22,7 +22,7 @@ const useGameDetail = ({ gameId }: useGameDetailPropsType) => {
     gameDetail();
   }, []);
 
-  return { gameData, gameDetail };
+  return { gameData };
 };
 
 export default useGameDetail;
