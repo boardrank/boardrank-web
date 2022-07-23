@@ -39,7 +39,9 @@ const GameList = ({ genreId }: GameListPropsType) => {
                   <div className="user-point font-jost">
                     User point
                     <span className="font-jost">
-                      {game.averageScore !== 0 ? game.averageScore : "평가 전"}
+                      {game.averageScore !== 0
+                        ? game.averageScore.toFixed(1)
+                        : "평가 전"}
                     </span>
                   </div>
                 </div>
