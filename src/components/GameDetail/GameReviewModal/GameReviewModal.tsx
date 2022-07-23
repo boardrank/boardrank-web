@@ -8,12 +8,14 @@ export interface GameReviewModalPropsType {
   closeModal: (value: boolean) => void;
   gameId: number;
   gameData: GameType | undefined;
+  gameDetail: () => void;
 }
 
 function GameReviewModal({
   closeModal,
   gameId,
   gameData,
+  gameDetail,
 }: GameReviewModalPropsType) {
   const handleCloseModal = (e: React.MouseEvent) => {
     if (e.target === e.currentTarget) {
@@ -31,7 +33,7 @@ function GameReviewModal({
     },
     handlePostReply,
     setValue,
-  } = useScore({ gameId, closeModal });
+  } = useScore({ gameId, closeModal, gameDetail });
 
   const [myRating, setMyRating] = useState([
     { state: "empty", id: 0 },

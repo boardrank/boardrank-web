@@ -8,9 +8,10 @@ import ScoreSection from "./ScoreSection";
 export interface GameReviewPropsType {
   gameId: number;
   gameData: GameType | undefined;
+  gameDetail: () => void;
 }
 
-function GameReview({ gameId, gameData }: GameReviewPropsType) {
+function GameReview({ gameId, gameData, gameDetail }: GameReviewPropsType) {
   const [isReviewModal, setIsReviewModal] = useState(false);
   const game = gameData?.boardGame;
   const scores = gameData?.boardGame.boardGameScores;
@@ -91,6 +92,7 @@ function GameReview({ gameId, gameData }: GameReviewPropsType) {
           closeModal={setIsReviewModal}
           gameId={gameId}
           gameData={gameData}
+          gameDetail={gameDetail}
         />
       )}
     </>

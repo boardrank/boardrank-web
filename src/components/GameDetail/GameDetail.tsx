@@ -7,11 +7,11 @@ import GameReview from "./GameReview";
 
 const GameDetail = () => {
   const { gameId }: any = useParams();
-  const { gameData } = useGameDetail({ gameId });
+  const { gameData, gameDetail } = useGameDetail({ gameId });
   return (
     <GameDetailWrapper>
       <GameInfo gameData={gameData} />
-      <GameReview gameId={gameId} gameData={gameData} />
+      <GameReview gameId={gameId} gameData={gameData} gameDetail={gameDetail} />
     </GameDetailWrapper>
   );
 };
