@@ -7,10 +7,13 @@ import styled from "styled-components";
 import useUser from "hooks/useUser";
 import { useEffect, useState } from "react";
 import { refreshUrl } from "api/auth";
+import RouteChangeTracker from "RouteChangeTracker";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const { userObj } = useUser();
+
+  RouteChangeTracker();
 
   const LoginCheck = () => {
     userObj ? setIsLoggedIn(true) : setIsLoggedIn(false);

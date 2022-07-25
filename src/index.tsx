@@ -11,6 +11,10 @@ import { Provider } from "react-redux";
 import { composeWithDevTools } from "redux-devtools-extension";
 import { persistStore } from "redux-persist";
 import { PersistGate } from "redux-persist/integration/react";
+import ReactGA from "react-ga";
+
+const TRACKING_ID = process.env.REACT_APP_GOOGLE_ANALYTICKS_TRACKING_ID;
+ReactGA.initialize(TRACKING_ID as string);
 
 axios.defaults.baseURL = "https://api.boardrank.kr";
 axios.defaults.withCredentials = true;
