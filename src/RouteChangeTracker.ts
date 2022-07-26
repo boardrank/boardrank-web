@@ -6,13 +6,14 @@ const RouteChangeTracker = () => {
   const location = useLocation();
   const [initialized, setInitialized] = useState(false);
 
+  /* localhost는 인지 못하게  */
   useEffect(() => {
     if (!window.location.href.includes("localhost")) {
       ReactGA.initialize(
         process.env.REACT_APP_GOOGLE_ANALYTICKS_TRACKING_ID as string
       );
-      setInitialized(true);
     }
+    setInitialized(true);
   }, []);
 
   useEffect(() => {
